@@ -66,6 +66,7 @@ export function AuthForm({ enabled }: AuthFormProps) {
       <label className="block space-y-2">
         <span className="text-sm font-medium">Email</span>
         <Input
+          name="email"
           type="email"
           value={email}
           onChange={(event) => setEmail(event.target.value)}
