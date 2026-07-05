@@ -14,7 +14,7 @@ import { hasDatabaseEnv, hasSupabaseEnv } from "@/lib/env";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 const stack = [
-  "Next.js 16 App Router",
+  "Next.js App Router",
   "TypeScript",
   "Supabase Auth",
   "Postgres",
