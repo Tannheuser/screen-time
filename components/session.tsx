@@ -1,3 +1,5 @@
+"use client";
+
 import { LockKeyhole, Play, Radar } from "lucide-react";
 
 type SessionProps = {
@@ -6,7 +8,6 @@ type SessionProps = {
   recoveredDigits: Array<string | null>;
   totalTasks: number;
   completedTasks: number;
-  onStart: () => void;
 };
 
 export function SessionCard({
@@ -15,7 +16,6 @@ export function SessionCard({
   recoveredDigits,
   totalTasks,
   completedTasks,
-  onStart,
 }: SessionProps) {
   const progress = Math.round((completedTasks / totalTasks) * 100);
 
@@ -85,10 +85,7 @@ export function SessionCard({
         </p>
       </div>
 
-      <button
-        onClick={onStart}
-        className="flex w-full items-center justify-center gap-3 rounded-2xl border border-emerald-400 bg-emerald-500/10 px-5 py-4 font-mono text-sm font-semibold uppercase tracking-[0.25em] text-emerald-300 shadow-[0_0_24px_rgba(34,197,94,0.16)] transition hover:bg-emerald-500/20 active:scale-[0.99]"
-      >
+      <button className="flex w-full items-center justify-center gap-3 rounded-2xl border border-emerald-400 bg-emerald-500/10 px-5 py-4 font-mono text-sm font-semibold uppercase tracking-[0.25em] text-emerald-300 shadow-[0_0_24px_rgba(34,197,94,0.16)] transition hover:bg-emerald-500/20 active:scale-[0.99]">
         <Play className="size-4" />
         Continue mission
       </button>
