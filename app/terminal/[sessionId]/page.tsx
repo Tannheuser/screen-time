@@ -70,6 +70,7 @@ export default async function Home() {
             </CardFooter>
           </Card>*/}
         <SessionCard
+          onStart={() => {}}
           recoveredDigits={[]}
           missionName="Math"
           agentName="Dany"
