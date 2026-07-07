@@ -1,28 +1,8 @@
 import { CheckCircle2 } from "lucide-react";
 
 import { SessionCard } from "@/components/session";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { hasDatabaseEnv, hasSupabaseEnv } from "@/lib/env";
-import { createSupabaseServerClient } from "@/lib/supabase/server";
-import { Session } from "inspector/promises";
 
 export default async function Home() {
-  const supabase = await createSupabaseServerClient();
-  const { data } = supabase
-    ? await supabase.auth.getUser()
-    : { data: { user: null } };
-  const user = data.user;
-  const supabaseEnabled = hasSupabaseEnv();
-  const databaseEnabled = hasDatabaseEnv();
-
   return (
     <main className="min-h-dvh  max-w-md text-emerald-400 border border-emerald-900/70 rounded-3xl m-4">
       <section className="">

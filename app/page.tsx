@@ -1,9 +1,4 @@
-import {
-  LockKeyhole,
-  ShieldEllipsis,
-  SquareTerminal,
-  TerminalIcon,
-} from "lucide-react";
+import { ChevronRight, Cog, SquareTerminal } from "lucide-react";
 
 import {
   Card,
@@ -13,14 +8,21 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Link from "next/link";
+import { Header } from "@/components/header";
 
 export default async function Home() {
+  const cardTitleClass = "font-mono neon-text flex gap-3 tracking-[0.14em]";
+
   return (
-    <main className="min-h-dvh max-w-md text-emerald-400 p-4">
+    <>
+      <Header missionName="unlock screen time" />
       <section className="flex flex-col gap-4">
-        <Card>
+        <Card className="glass-panel rounded-[1.5rem]">
           <CardHeader>
-            <CardTitle className="font-mono">Mission Terminal</CardTitle>
+            <CardTitle className={cardTitleClass}>
+              <SquareTerminal />
+              Mission Terminal
+            </CardTitle>
             <CardDescription>
               Solve puzzles and recover the access code to earn extra screen
               time.
@@ -29,16 +31,19 @@ export default async function Home() {
           <CardFooter className="flex-col items-start gap-3 text-sm text-zinc-600 dark:text-zinc-400">
             <Link
               href="/terminal"
-              className="flex w-full items-center justify-center gap-3 rounded-2xl border border-emerald-400 bg-emerald-500/10 px-5 py-4 font-mono text-sm font-semibold uppercase tracking-[0.25em] text-emerald-300 shadow-[0_0_24px_rgba(34,197,94,0.16)] transition hover:bg-emerald-500/20 active:scale-[0.99]"
+              className="neon-border flex w-full items-center justify-between rounded-xl border bg-cyan-300/5 px-5 py-4 font-mono text-sm uppercase tracking-[0.22em] text-cyan-200"
             >
-              <SquareTerminal className="size-4" />
-              Enter Terminal
+              <span>&gt; Enter Terminal</span>
+              <ChevronRight className="size-5" />
             </Link>
           </CardFooter>
         </Card>
-        <Card>
+        <Card className="glass-panel rounded-[1.5rem]">
           <CardHeader>
-            <CardTitle className="font-mono">Mission Control</CardTitle>
+            <CardTitle className={cardTitleClass}>
+              <Cog />
+              Mission Control
+            </CardTitle>
             <CardDescription>
               Configure missions, rewards, and monitor completed operations.
             </CardDescription>
@@ -46,14 +51,14 @@ export default async function Home() {
           <CardFooter className="flex-col items-start gap-3 text-sm text-zinc-600 dark:text-zinc-400">
             <Link
               href="/admin"
-              className="flex w-full items-center justify-center gap-3 rounded-2xl border border-emerald-400 bg-emerald-500/10 px-5 py-4 font-mono text-sm font-semibold uppercase tracking-[0.25em] text-emerald-300 shadow-[0_0_24px_rgba(34,197,94,0.16)] transition hover:bg-emerald-500/20 active:scale-[0.99]"
+              className="neon-border flex w-full items-center justify-between rounded-xl border bg-cyan-300/5 px-5 py-4 font-mono text-sm uppercase tracking-[0.22em] text-cyan-200"
             >
-              <LockKeyhole className="size-4" />
-              Open Console
+              <span>&gt; Open Console</span>
+              <ChevronRight className="size-5" />
             </Link>
           </CardFooter>
         </Card>
       </section>
-    </main>
+    </>
   );
 }

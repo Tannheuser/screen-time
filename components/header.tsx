@@ -1,23 +1,17 @@
-import { Menu } from "lucide-react";
+type HeaderProps = {
+  agentName?: string;
+  missionName: string;
+};
 
-export function Header() {
+export function Header(props: HeaderProps) {
   return (
-    <header className="px-5 py-4">
-      <div className="flex items-center justify-between">
-        <button>
-          <Menu className="size-6 text-emerald-400" />
-        </button>
+    <header className="mb-6 flex items-center justify-between font-mono text-sm uppercase tracking-[0.18em] text-cyan-200/80">
+      <span className="uppercase">&gt;_ {props.missionName}</span>
 
-        <div className="text-center">
-          <h1 className="font-mono text-xl tracking-[0.18em] text-emerald-300">
-            UNLOCK EXTRA TIME
-          </h1>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <span className="size-2 rounded-full bg-emerald-400 animate-pulse" />
-        </div>
-      </div>
+      <span className="flex items-center gap-2 text-xs">
+        <span className="size-2 rounded-full bg-cyan-300 shadow-[0_0_12px_rgba(103,232,249,0.9)] animate-pulse" />
+        Online
+      </span>
     </header>
   );
 }
