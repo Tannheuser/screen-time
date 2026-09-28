@@ -3,7 +3,6 @@ import {
   check,
   index,
   pgEnum,
-  pgSchema,
   pgTable,
   smallint,
   text,
@@ -12,15 +11,8 @@ import {
   uuid,
 } from "drizzle-orm/pg-core";
 
-// Supabase owns this table. Reference it without exporting it for migrations.
-const authUsers = pgSchema("auth").table("users", {
-  id: uuid("id").primaryKey(),
-});
-
 export const parents = pgTable("parents", {
-  id: uuid("id")
-    .primaryKey()
-    .references(() => authUsers.id, { onDelete: "cascade" }),
+  id: uuid("id").primaryKey().defaultRandom(),
   displayName: text("display_name"),
   createdAt: timestamp("created_at", { withTimezone: true })
     .defaultNow()
@@ -70,6 +62,7 @@ export const sessionChallenges = pgTable(
       .references(() => unlockSessions.id, { onDelete: "cascade" }),
     position: smallint("position").notNull(),
     title: text("title").notNull(),
+    startedAt: timestamp("started_at", { withTimezone: true }),
     completedAt: timestamp("completed_at", { withTimezone: true }),
   },
   (table) => [
@@ -78,5 +71,9 @@ export const sessionChallenges = pgTable(
       table.position,
     ),
     check("session_challenges_position_check", sql`${table.position} BETWEEN 1 AND 4`),
+    check(
+      "session_challenges_completion_requires_start_check",
+      sql`${table.completedAt} IS NULL OR ${table.startedAt} IS NOT NULL`,
+    ),
   ],
 ).enableRLS();
