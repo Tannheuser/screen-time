@@ -1,6 +1,6 @@
 "use client";
 
-import { LockKeyhole, Play, Radar } from "lucide-react";
+import { LockKeyhole, Radar } from "lucide-react";
 
 type SessionProps = {
   agentName?: string;
@@ -24,7 +24,7 @@ export function SessionCard({
       <div className="mb-6 flex items-start justify-between gap-4">
         <div>
           <p className="font-mono text-xs uppercase tracking-[0.3em] text-emerald-500/70">
-            // Session found
+            {"// Session found"}
           </p>
 
           <h2 className="mt-2 font-mono text-2xl font-semibold uppercase tracking-[0.12em] text-emerald-300">
@@ -62,7 +62,7 @@ export function SessionCard({
 
       <div className="mb-6">
         <p className="mb-3 font-mono text-xs uppercase tracking-[0.25em] text-emerald-500/70">
-          // Recovered digits
+          {"// Recovered digits"}
         </p>
 
         <div className="grid grid-cols-4 gap-3">
@@ -85,10 +85,6 @@ export function SessionCard({
         </p>
       </div>
 
-      <button className="flex w-full items-center justify-center gap-3 rounded-2xl border border-emerald-400 bg-emerald-500/10 px-5 py-4 font-mono text-sm font-semibold uppercase tracking-[0.25em] text-emerald-300 shadow-[0_0_24px_rgba(34,197,94,0.16)] transition hover:bg-emerald-500/20 active:scale-[0.99]">
-        <Play className="size-4" />
-        Continue mission
-      </button>
     </section>
   );
 }

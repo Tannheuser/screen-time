@@ -4,7 +4,10 @@ import postgres from "postgres";
 import { getEnv, hasDatabaseEnv } from "@/lib/env";
 import * as schema from "@/lib/db/schema";
 
+let database: ReturnType<typeof drizzle<typeof schema>> | undefined;
+
 export function createDb() {
+  if (database) return database;
   if (!hasDatabaseEnv()) {
     return null;
   }
@@ -13,7 +16,8 @@ export function createDb() {
     prepare: false,
   });
 
-  return drizzle(client, { schema });
+  database = drizzle(client, { schema });
+  return database;
 }
 
 export { schema };
