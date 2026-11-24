@@ -16,8 +16,8 @@ export default async function Home() {
   return (
     <>
       <Header missionName="unlock screen time" />
-      <section className="flex flex-col gap-4">
-        <Card className="glass-panel rounded-[1.5rem]">
+      <section className="mx-auto flex w-full max-w-md flex-col gap-4">
+        <Card className="glass-panel rounded-3xl">
           <CardHeader>
             <CardTitle className={cardTitleClass}>
               <SquareTerminal />
