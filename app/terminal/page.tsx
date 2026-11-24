@@ -1,14 +1,13 @@
 import { getCurrentSession } from "@/lib/queries/current-session";
+import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
-import { Circle, CircleDot, LockKeyhole, ShieldCheck } from "lucide-react";
+import { ChevronRight, Circle, CircleDot, LockKeyhole, ShieldCheck } from "lucide-react";
 
 export default async function Terminal() {
   const session = await getCurrentSession();
   if (!session) return <p className="p-5 text-cyan-200">No active mission.</p>;
-
-  console.log(JSON.stringify(session))
 
   return (
     <section className="mx-auto flex min-h-[calc(100dvh-48px)] w-full max-w-md flex-col rounded-4xl">
@@ -61,9 +60,11 @@ export default async function Terminal() {
 
         <div className="mt-5 space-y-2">
           {session.challenges.map(({ position, title, status }) => (
-            <div
+            <Link
               key={position}
-              className="flex items-center justify-between rounded-xl border border-white/10 bg-white/2.5 px-4 py-4 font-mono"
+              href={`/terminal/challenges/${position}`}
+              className="group flex items-center justify-between rounded-xl border border-white/10 bg-white/2.5 px-4 py-4 font-mono transition hover:border-cyan-300/30 hover:bg-cyan-300/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/70"
+              aria-label={`Open challenge ${position}: ${title}`}
             >
               <div className="flex items-center gap-4">
                 <span className="text-xl text-cyan-300">{String(position).padStart(2, "0")}</span>
@@ -76,14 +77,17 @@ export default async function Terminal() {
                   </p>
                 </div>
               </div>
-              {status === "Completed" ? (
-                <ShieldCheck className="size-5 text-cyan-300/70" />
-              ) : status === "In progress" ? (
-                <CircleDot className="size-5 text-cyan-300/70" />
-              ) : (
-                <Circle className="size-5 text-cyan-300/40" />
-              )}
-            </div>
+              <div className="flex items-center gap-3">
+                {status === "Completed" ? (
+                  <ShieldCheck className="size-5 text-cyan-300/70" />
+                ) : status === "In progress" ? (
+                  <CircleDot className="size-5 text-cyan-300/70" />
+                ) : (
+                  <Circle className="size-5 text-cyan-300/40" />
+                )}
+                <ChevronRight className="size-5 text-cyan-300/40 transition group-hover:translate-x-0.5 group-hover:text-cyan-200" />
+              </div>
+            </Link>
           ))}
         </div>
       </div>

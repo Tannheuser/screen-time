@@ -5,7 +5,7 @@ type HeaderProps = {
 
 export function Header(props: HeaderProps) {
   return (
-    <header className="mb-6 flex items-center justify-between font-mono text-sm uppercase tracking-[0.18em] text-cyan-200/80">
+    <header className="mx-auto mb-6 flex w-full max-w-md items-center justify-between font-mono text-sm uppercase tracking-[0.18em] text-cyan-200/80">
       <span className="uppercase">&gt;_ {props.missionName}</span>
 
       <span className="flex items-center gap-2 text-xs">
