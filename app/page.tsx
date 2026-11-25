@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ChevronRight, Cog, RadioTower, SquareTerminal } from "lucide-react";
 
 import { Header } from "@/components/header";
+import { PanelHeader } from "@/components/panel-header";
 
 export default function Home() {
   return (
@@ -9,20 +10,11 @@ export default function Home() {
       <Header missionName="unlock screen time" />
       <section className="mx-auto flex min-h-[calc(100dvh-5.75rem)] w-full max-w-md">
         <div className="glass-panel w-full flex-1 rounded-3xl p-5">
-          <div className="mb-6 flex items-start justify-between gap-4">
-            <div>
-              <p className="font-mono text-xs uppercase tracking-[0.24em] text-cyan-300/70">
-                System online
-              </p>
-              <h1 className="neon-text mt-3 font-mono text-3xl font-semibold uppercase tracking-[0.14em]">
-                Mission Hub
-              </h1>
-            </div>
-
-            <div className="flex size-16 shrink-0 items-center justify-center rounded-2xl border border-cyan-300/30 bg-cyan-300/5 shadow-[0_0_24px_rgba(34,211,238,0.18)]">
-              <RadioTower className="size-7 text-cyan-200" />
-            </div>
-          </div>
+          <PanelHeader
+            eyebrow="System online"
+            title="Mission Hub"
+            icon={<RadioTower className="size-7" />}
+          />
 
           <div className="grid grid-rows-2 gap-3">
             <Link

@@ -4,21 +4,32 @@ import { useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, Check, ChevronRight, RotateCcw } from "lucide-react";
 
+import { ProgressMeter } from "@/app/terminal/_components/progress-meter";
+import { PanelHeader } from "@/components/panel-header";
+import {
+  formatChallengeStatus,
+  type ChallengeStatus,
+} from "@/lib/challenges/status";
 import type { MockChallenge } from "@/lib/mock-challenge";
 
 type MockChallengeScreenProps = {
   challenge: MockChallenge;
+  initialStatus: ChallengeStatus;
 };
 
-export function MockChallengeScreen({ challenge }: MockChallengeScreenProps) {
+export function MockChallengeScreen({
+  challenge,
+  initialStatus,
+}: MockChallengeScreenProps) {
   const [questionIndex, setQuestionIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
-  const [isFinished, setIsFinished] = useState(false);
+  const [isFinished, setIsFinished] = useState(initialStatus === "completed");
+  const status: ChallengeStatus = isFinished ? "completed" : initialStatus;
+  const completedAnswers = isFinished
+    ? challenge.questions.length
+    : questionIndex;
 
   const question = challenge.questions[questionIndex];
-  const progress = isFinished
-    ? 100
-    : (questionIndex / challenge.questions.length) * 100;
 
   function continueChallenge() {
     if (!selectedOption) return;
@@ -41,45 +52,21 @@ export function MockChallengeScreen({ challenge }: MockChallengeScreenProps) {
   return (
     <section className="mx-auto flex min-h-[calc(100dvh-5.75rem)] w-full max-w-md flex-col">
       <div className="glass-panel flex flex-1 flex-col rounded-3xl p-5">
-        <header className="mb-6">
-          <div className="flex items-start justify-between gap-4">
-            <div>
-              <p className="font-mono text-xs uppercase tracking-[0.24em] text-cyan-300/70">
-                Challenge {String(challenge.position).padStart(2, "0")}
-              </p>
-              <h1 className="neon-text mt-3 font-mono text-3xl font-semibold uppercase tracking-[0.14em]">
-                {challenge.title}
-              </h1>
-              <p className="mt-3 font-mono text-sm uppercase tracking-[0.16em] text-cyan-100/70">
-                Status: {isFinished ? "completed" : "in progress"}
-              </p>
-            </div>
-
-            <Link
-              href="/terminal"
-              aria-label="Back to mission overview"
-              title="Back to mission overview"
-              className="flex size-16 shrink-0 items-center justify-center rounded-2xl border border-cyan-300/30 bg-cyan-300/5 text-cyan-200 shadow-[0_0_24px_rgba(34,211,238,0.18)] transition hover:border-cyan-300/50 hover:bg-cyan-300/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/70"
-            >
-              <ArrowLeft className="size-7" />
-            </Link>
-          </div>
-        </header>
+        <PanelHeader
+          eyebrow={`Challenge ${String(challenge.position).padStart(2, "0")}`}
+          title={challenge.title}
+          subtitle={`Status: ${formatChallengeStatus(status)}`}
+          icon={<ArrowLeft className="size-7" />}
+          iconHref="/terminal"
+          iconLabel="Back to mission overview"
+        />
 
         <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-4">
-          <div className="mb-3 flex items-center justify-between font-mono text-xs uppercase tracking-[0.2em] text-cyan-200">
-            <span>Challenge Progress</span>
-            <span>
-              {isFinished ? challenge.questions.length : questionIndex + 1} / {challenge.questions.length}
-            </span>
-          </div>
-
-          <div className="h-3 rounded-full border border-cyan-200/20 bg-black/30 p-0.5">
-            <div
-              className="h-full rounded-full bg-cyan-300 shadow-[0_0_18px_rgba(103,232,249,0.9)] transition-[width] duration-300"
-              style={{ width: `${progress}%` }}
-            />
-          </div>
+          <ProgressMeter
+            label="Challenge Progress"
+            value={completedAnswers}
+            max={challenge.questions.length}
+          />
         </div>
 
         {isFinished ? (
@@ -116,6 +103,9 @@ export function MockChallengeScreen({ challenge }: MockChallengeScreenProps) {
           </div>
         ) : (
           <div className="mt-5 flex flex-1 flex-col rounded-2xl border border-white/10 bg-transparent p-4">
+            <p className="mb-3 font-mono text-xs uppercase tracking-[0.22em] text-cyan-300/70">
+              Question {questionIndex + 1} of {challenge.questions.length}
+            </p>
             <h2 className="text-xl font-medium leading-8 text-cyan-50">
               {question.prompt}
             </h2>

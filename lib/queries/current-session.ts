@@ -2,6 +2,7 @@ import "server-only";
 
 import { createDecipheriv } from "node:crypto";
 import { and, asc, eq } from "drizzle-orm";
+import { deriveChallengeStatus } from "@/lib/challenges/status";
 import { createDb } from "@/lib/db";
 import { sessionChallenges, unlockSessions } from "@/lib/db/schema";
 import { TEMPORARY_PARENT_ID } from "@/lib/temporary-parent.mjs";
@@ -33,7 +34,16 @@ export async function getCurrentSession() {
   const passcode = Buffer.concat([decipher.update(Buffer.from(ciphertext, "base64")), decipher.final()]).toString("utf8");
   if (!/^\d{4}$/.test(passcode)) throw new Error("Invalid stored passcode.");
 
-  const completedTasks = rows.filter((row) => row.completedAt !== null).length;
+  const challenges = rows.map((row) => ({
+    id: row.challengeId,
+    position: row.position,
+    title: row.challengeTitle,
+    status: deriveChallengeStatus(row),
+  }));
+  const completedTasks = challenges.filter(
+    (challenge) => challenge.status === "completed",
+  ).length;
+
   return {
     id: rows[0].id,
     title: rows[0].title,
@@ -44,15 +54,6 @@ export async function getCurrentSession() {
         ? passcode[index]
         : null,
     ),
-    challenges: rows.map((row) => ({
-      id: row.challengeId,
-      position: row.position,
-      title: row.challengeTitle,
-      status: row.completedAt
-        ? "Completed"
-        : row.startedAt
-          ? "In progress"
-          : "Not started",
-    })),
+    challenges,
   };
 }

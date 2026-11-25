@@ -28,16 +28,6 @@ const questions: MockQuestion[] = [
   },
 ];
 
-const titles = ["Math Sequence", "Pattern Lock", "Logic Gate", "Final Cipher"];
-
-export function getMockChallenge(position: number): MockChallenge | null {
-  const title = titles[position - 1];
-
-  if (!title) return null;
-
-  return {
-    position,
-    title,
-    questions,
-  };
+export function getMockQuestions(): MockQuestion[] {
+  return questions;
 }
