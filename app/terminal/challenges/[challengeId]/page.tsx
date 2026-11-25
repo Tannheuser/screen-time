@@ -19,6 +19,8 @@ export default async function ChallengePage({ params }: ChallengePageProps) {
 
   const currentChallenge = await getCurrentChallenge(parsedChallengeId.data);
 
+  console.log("challenge", currentChallenge);
+
   if (!currentChallenge) notFound();
 
   const challenge: MockChallenge = {
